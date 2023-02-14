@@ -9,13 +9,17 @@ const base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
  * @returns String that converted to binary
  */
 const stringToBinary = (str) => {
-    let binaries = [];
-    for (let i = 0; i < str.length; i++) {
-        let  binary = str.charCodeAt(i).toString(2);
-        binaries += Array(8-binary.length+1).join("0") + binary;
-    }
+    let binaries = "";
+    for (let i = 0; i < str.length; i++) 
+        binaries += charToBinary(str[i]);
     return binaries;
 }
+
+const charToBinary = (char) => {
+    let binary = char.charCodeAt(0).toString(2);
+    return Array(8-binary.length+1).join("0") + binary;
+}
+
 /**
  * divideAndFill function divides string to 6 bits if string lenght didn't reach 6 then fills the rest with 0
  * @param {String} str 
@@ -47,6 +51,7 @@ const sixBitToEigthBit = (bits) => {
     }
     return eightBits;
 }
+
 /**
  * toDecimal function converts 8 bits to decimal
  * @param {[]} bits 
@@ -55,9 +60,13 @@ const sixBitToEigthBit = (bits) => {
 const toDecimal = (bits) => {
     let decimal = [];
     for (let i = 0; i < bits.length; i++) {
-        decimal.push(parseInt(bits[i], 2));
+        decimal.push(binaryToDecimal(bits[i]));
     }
     return decimal;
+}
+
+const binaryToDecimal = (binary) =>{
+    return parseInt(binary, 2);
 }
 
 /**
@@ -68,26 +77,37 @@ const toDecimal = (bits) => {
 const toBase64Character = (decimals) => {
     let base64Characters = "";
     for(let i = 0; i < decimals.length; i++) {
-        base64Characters += base64[decimals[i]];
+        base64Characters += decimalToBase64Character(decimals[i]);
     }
 
     return base64Characters;
 }
 
+const decimalToBase64Character = (decimal) => {
+    return base64[decimal];
+}
 /**
  * base64CharactersToDecimal function converts base64 characters to decimal
  * @param {String} base64Characters 
  * @returns [] -> array of decimal numbers
  */
-const base64CharactersToDecimal = (base64Characters) => {
+const base64ArrayToDecimal = (base64Characters) => {
     let decimal = [];
     for(let i = 0; i < base64Characters.length; i++) {
-        decimal.push(base64.indexOf(base64Characters[i]));
+        decimal.push(base64ToDecimal(base64Characters[i]));
     }
-
     return decimal;
 }   
 
+const base64ToDecimal = (base64Char) => {
+    return base64.indexOf(base64Char);
+}
+
+/**
+ * decimalToBinary function converts decimal to binary array
+ * @param {[]} decimal 
+ * @returns [] binary array
+ */
 const decimalToBinary = (decimal) => {
 
     for(let i = 0; i < decimal.length; i++) {
@@ -125,14 +145,13 @@ const removePrefixAndJoin = (bits) => {
 /**
  * divideIntoEightBits function divides string bits to 8 bits
  * @param {String} bitString 
- * @returns array of 8 bits
+ * @returns [] array of 8 bits
  */
 const divideIntoEightBits = (bitString) => {
     let divided = [];
     let i = 0;
     while (i < bitString.length) {
         let temp = bitString.slice(i, i+8);
-        console.log(temp, "temp")
         divided.push(temp);
         i += 8;
     }
@@ -144,15 +163,31 @@ const divideIntoEightBits = (bitString) => {
  * @param {[]} binary 
  * @returns string that converted from binary
  */
-const binaryToString = (binary) => {
+const binaryArrayToString = (binary) => {
     let str = "";
 
     for(let i = 0; i < binary.length; i++) {
-        str += String.fromCharCode(parseInt(binary[i], 2));
+        str += binaryToString(binary[i]);
     }
     return str;
 }
 
+const binaryToString = (binary) => {
+    return String.fromCharCode(parseInt(binary, 2));
+}
 
 
-module.exports = { stringToBinary, divideAndFill, sixBitToEigthBit, toDecimal , toBase64Character , base64CharactersToDecimal, decimalToBinary, removePrefixAndJoin, divideIntoEightBits, binaryToString}
+
+module.exports = { 
+    stringToBinary, 
+    divideAndFill, 
+    sixBitToEigthBit, 
+    toDecimal , 
+    toBase64Character , 
+    decimalToBinary, 
+    removePrefixAndJoin, 
+    divideIntoEightBits, 
+    binaryToString, 
+    base64ArrayToDecimal,
+    binaryArrayToString
+}

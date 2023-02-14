@@ -8,27 +8,29 @@ const helper = require('./helper.js');
 const encoder = (str) =>  {
 
     //* convert string to binary then returning value divided to 6 bits and filled with 0 if needed
-    const divided = helper.divideAndFill(helper.stringToBinary(str));
-
+    const dividedArray = helper.divideAndFill(helper.stringToBinary(str));
     //* convert 6 bits to 8 bits and returning value converted to decimal
-    const decimal = helper.toDecimal(helper.sixBitToEigthBit(divided));
-
+    const decimalArray = helper.toDecimal(helper.sixBitToEigthBit(dividedArray));
     //* convert decimal to base64 character
-    return toBase64Character = helper.toBase64Character(decimal);
+    return toBase64Character = helper.toBase64Character(decimalArray);
 }
 
+/**
+ * decoder function takes a base64 encoded string and returns a decoded string
+ * @param {String} str 
+ * @returns {String} base64 decoded string
+ */
 const decoder = (str) => {
 
-    let decimal = helper.base64CharactersToDecimal(str);
+    //* convert base64 character to decimal array then returning array of 8 bits
+    let binaryArray = helper.decimalToBinary(helper.base64ArrayToDecimal(str));
 
-    let binary = helper.decimalToBinary(decimal);
+    //* convert 8 bits to 6 bits and retuning array of 8 bits
+    let dividedBitsArray = helper.divideIntoEightBits(helper.removePrefixAndJoin(binaryArray));
 
-    let realBinary = helper.removePrefixAndJoin(binary);
-
-    let dividedBits = helper.divideIntoEightBits(realBinary);
-
-    let decoded = helper.binaryToString(dividedBits);
-    return decoded;
+    //* convert 8 bits to character and returning string
+    return helper.binaryArrayToString(dividedBits);
+   
 }
 
 
