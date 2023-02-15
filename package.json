@@ -1,6 +1,6 @@
 {
   "name": "@deconsole/base64helper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Encode and decode to base64",
   "main": "index.js",
   "scripts": {
