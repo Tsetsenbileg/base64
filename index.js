@@ -29,6 +29,9 @@ const decoder = (str) => {
     let dividedBitsArray = helper.divideIntoEightBits(helper.removePrefixAndJoin(binaryArray));
 
     //* convert 8 bits to character and returning string
-    return helper.binaryArrayToString(dividedBits);
+    return helper.binaryArrayToString(dividedBitsArray);
    
 }
+
+console.log(encoder('hello world'));
+console.log(decoder('aGVsbG8gd29ybGQ'));
