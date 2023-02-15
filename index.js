@@ -32,7 +32,3 @@ const decoder = (str) => {
     return helper.binaryArrayToString(dividedBits);
    
 }
-
-
-console.log(encoder("ABCD"));
-console.log(decoder("QUJDRA"));
